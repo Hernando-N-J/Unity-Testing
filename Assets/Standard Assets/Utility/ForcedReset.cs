@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +12,7 @@ public class ForcedReset : MonoBehaviour
         if (CrossPlatformInputManager.GetButtonDown("ResetObject"))
         {
             //... reload the scene
-            SceneManager.LoadSceneAsync(Application.loadedLevelName);
+            //SceneManager.LoadSceneAsync(Application.loadedLevelName);
         }
     }
 }

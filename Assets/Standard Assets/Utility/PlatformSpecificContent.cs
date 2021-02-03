@@ -32,16 +32,20 @@ namespace UnityStandardAssets.Utility
 
 #if UNITY_EDITOR
 
+        public static Action activeBuildTargetChanged;
+
         private void OnEnable()
         {
-            EditorUserBuildSettings.activeBuildTargetChanged += Update;
+            //EditorUserBuildSettings.activeBuildTargetChanged += Update;
+            activeBuildTargetChanged += Update;
             EditorApplication.update += Update;
         }
 
 
         private void OnDisable()
         {
-            EditorUserBuildSettings.activeBuildTargetChanged -= Update;
+            // EditorUserBuildSettings.activeBuildTargetChanged -= Update;
+            activeBuildTargetChanged -= Update;
             EditorApplication.update -= Update;
         }
 

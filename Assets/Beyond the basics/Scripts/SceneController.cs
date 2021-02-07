@@ -1,46 +1,79 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SceneController : MonoBehaviour
 {
     public List<Shape> gameShapes;
-    // declare a dictionary with string and shape
-    public Dictionary<string, Shape> shapesDictionary;
+    public Dictionary<string, Shape> shapeDictionary;
+    public Queue<Shape> shapeQueue;
+    public Stack<Shape> shapeStack;
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        // initialize dictionary
-        shapesDictionary = new Dictionary<string, Shape>();
+        shapeQueue = new Queue<Shape>();
+        shapeDictionary = new Dictionary<string, Shape>();
+        shapeStack = new Stack<Shape>();
 
-        // add values to dictionary from gameShapes
-        foreach (Shape sh in gameShapes)
+        foreach(Shape shape in gameShapes)
         {
-            shapesDictionary.Add(sh.Name, sh);
+            shapeDictionary.Add(shape.Name, shape); 
+        }
+
+        shapeQueue.Enqueue(shapeDictionary["Triangle"]);
+        shapeQueue.Enqueue(shapeDictionary["Square"]);
+        shapeQueue.Enqueue(shapeDictionary["Octagon"]);
+        shapeQueue.Enqueue(shapeDictionary["Circle"]);
+
+        shapeStack.Push(shapeDictionary["Triangle"]);
+        shapeStack.Push(shapeDictionary["Square"]);
+        shapeStack.Push(shapeDictionary["Octagon"]);
+        shapeStack.Push(shapeDictionary["Circle"]);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if (shapeStack.Count > 0)
+            {
+                Shape shape = shapeStack.Pop();
+                shape.SetColor(Color.green);
+            }
+            else
+            {
+                Debug.Log("The stack is empty!");
+            }
         }
     }
 
-    // SetRedByName with a string shapeName
     private void SetRedByName(string shapeName)
     {
-        shapesDictionary[shapeName].SetColor(Color.red);
+        shapeDictionary[shapeName].SetColor(Color.red);
     }
 
-    private void SetCyanByName(string shapeName)
+    private void DeQueueExample()
     {
-        shapesDictionary[shapeName].SetColor(Color.cyan);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (shapeQueue.Count > 0)
+            {
+                Shape shape = shapeQueue.Dequeue();
+                shape.SetColor(Color.blue);
+            }
+            else
+            {
+                Debug.Log("The shape queue is empty!");
+            }
+        }
     }
 
-    // Update to change color with S or C
-    private void Update()
+    private void FindExample()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-            SetRedByName("Square");
-
-        if (Input.GetKeyDown(KeyCode.C))
-            SetCyanByName("Circle");
-
-        if (Input.GetKeyDown(KeyCode.L))
-            ListExample();
+        Shape octagon = gameShapes.Find(s => s.Name == "Octagon");
+        octagon.SetColor(Color.red);
     }
 
     private void ListExample()
@@ -49,8 +82,9 @@ public class SceneController : MonoBehaviour
         List<string> moreShapes;
 
         moreShapes = new List<string> { "circle", "square", "triangle", "octagon" };
+
         moreShapes.Add("rectangle");
-        moreShapes.Insert(0, "diamond");
+        moreShapes.Insert(2, "diamond");
         moreShapes.Sort();
 
         for (int i = 0; i < moreShapes.Count; i++)
@@ -58,13 +92,18 @@ public class SceneController : MonoBehaviour
             moreShapes[i] = moreShapes[i].ToUpper();
             Debug.Log(moreShapes[i]);
         }
+    }
 
-        Shape octagon = gameShapes.Find(sh => sh.Name == "Octagon");
-        octagon.Name = octagon.Name.ToUpper();
-        Debug.Log(octagon.Name);
-        octagon.SetColor(Color.red);
+    private void DictionaryExample()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SetRedByName("Square");
+        }
 
-        Shape circle = gameShapes.Find(sh => sh.Name == "Circle");
-        circle.SetColor(Color.yellow);
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SetRedByName("Circle");
+        }
     }
 }

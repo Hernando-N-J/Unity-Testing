@@ -11,11 +11,6 @@ public class ProjectileController : Shape, IKillable
         Debug.Log("Projectile spawned");
 
         Name = "Projectile";
-
-        foreach (var n in ShowNames())
-        {
-            Debug.Log(n);
-        }
     }
 
     private void Update()
@@ -41,15 +36,5 @@ public class ProjectileController : Shape, IKillable
     public string GetName()
     {
         return Name;
-    }
-
-    private string[] ShowNames()
-    {
-        string a = "Ana";
-        string b = "Bernardo";
-        string c = "CArlos";
-
-        string[] namesArray = { a, b, c };
-        return namesArray;
     }
 }
